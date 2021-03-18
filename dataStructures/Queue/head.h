@@ -11,16 +11,17 @@ struct Node {
 };
 
 template <class T>
-class Stack {
+class Queue {
 	int counter;
-	Node<T>* Top;
+	Node<T>* Front;
+	Node<T>* Back;
 public:
-	Stack();
+	Queue();
 
 	bool isEmpty();
-	T getTop();
-	void push(T);
-	void pop();
+	T getFront();
+	void enqueue(T);
+	void dequeue();
 };
 
 template <class T>
@@ -29,36 +30,44 @@ Node<T>::Node(T key) :
 }
 
 template <class T>
-Stack<T>::Stack():
-	counter(0), Top(NULL){
+Queue<T>::Queue():
+	counter(0), Front(NULL), Back(NULL){
 }
 
 template <class T>
-bool Stack<T>::isEmpty() {
+bool Queue<T>::isEmpty() {
 	return counter ? false : true;
 }
 
 template <class T>
-T Stack<T>::getTop() {
-	return Top->value;
+T Queue<T>::getFront() {
+	return Front->value;
 }
 
 template <class T>
-void Stack<T>::push(T key) {
+void Queue<T>::enqueue(T key) {
 	Node<T>* node = new Node<T>(key);
-	node->next = Top;
-	Top = node;
+
+	if (isEmpty()) {
+		node->next = NULL;
+		Front = node;
+		Back = Front;
+	}
+	else {
+		Back->next = node;
+		Back = node;
+	}
 	counter++;
 }
 
 template <class T>
-void Stack<T>::pop() {
+void Queue<T>::dequeue() {
 	if (isEmpty()) {
 		return;
 	}
 
-	Node<T>* node = Top;
-	Top = Top->next;
+	Node<T>* node = Front;
+	Front = Front->next;
 	delete node;
 	counter--;
 }
