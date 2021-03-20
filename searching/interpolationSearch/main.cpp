@@ -8,6 +8,4 @@ int main() {
 	std::cout << "Index: " << interpolationSearch(arr, 0, 13, wantedValue);
 
 	return 0;
-
-	return 0;
 }
